@@ -1,5 +1,30 @@
-// Global API host path
-const host = "http://localhost:5678/api";
+
+// Gallery initialization
+function initGallery() {
+    // Load all works from API
+    fetch(host + "/works")
+        .then(response => {
+            if(response.status === 200) {
+                return response.json();
+            } else {
+                console.log('API : erreur lors de la récupération des travaux.');
+                return false;
+            }
+        })
+        .then(worksList => {
+            if(worksList === false) {
+                return false;
+            } else {
+                // Define gallery and categories filters containers
+                const galleryContainer = document.getElementById("portfolio").querySelector(".gallery");
+                const categoriesContainer = document.querySelector(".categories");
+                // Setup gallery with entire works list => return categories list
+                const categoriesList = setupGallery(galleryContainer,worksList);
+                // Setup filters (display categories + setup events listeners)
+                setupCategories(categoriesContainer,categoriesList,galleryContainer,worksList);
+            }
+        });
+}
 
 // function to add figures
 function setupGallery(container,figuresList) {
@@ -68,33 +93,3 @@ function filterGallery(container,worksList,category) {
         setupGallery(container, filteredWorksList);
     }
 }
-
-// Initialization on body load
-function main() {
-    // Load all works from API
-    fetch(host + "/works")
-        .then(response => {
-            if(response.status === 200) {
-                return response.json();
-            } else {
-                console.log('API : erreur lors de la récupération des travaux.');
-                return false;
-            }
-        })
-        .then(worksList => {
-            if(worksList === false) {
-                return false;
-            } else {
-                // Define gallery and categories filters containers
-                const galleryContainer = document.getElementById("portfolio").querySelector(".gallery");
-                const categoriesContainer = document.querySelector(".categories");
-                // Setup gallery with entire works list => return categories list
-                const categoriesList = setupGallery(galleryContainer,worksList);
-                // Setup filters (display categories + setup events listeners)
-                setupCategories(categoriesContainer,categoriesList,galleryContainer,worksList);
-            }
-        });
-}
-
-// Run main script
-main();

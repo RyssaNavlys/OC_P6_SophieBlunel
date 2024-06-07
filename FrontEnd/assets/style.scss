@@ -48,11 +48,17 @@ table {
 }
 /** end reset css**/
 
+// Colors
+$color-primary: #1D6154;
+$color-secondary: #B1663C;
+
+$font-title: 'Syne';
+$font-primary: 'Work Sans';
 
 body {
 	max-width: 1140px;
 	margin:auto;
-	font-family: 'Work Sans' ;
+	font-family: $font-primary;
 	font-size: 14px;
 	background-color: #FFFEF8;
 }
@@ -63,12 +69,12 @@ header {
     h1 {
         display: flex;
         flex-direction: column;
-        font-family: 'Syne';
+        font-family: $font-title;
         font-size: 22px;
         font-weight: 800;
-        color: #B1663C;
+        color: $color-secondary;
         > span {
-            font-family: 'Work Sans';
+            font-family: $font-primary;
             font-size:10px;
             letter-spacing: 0.1em;
         }
@@ -84,7 +90,7 @@ header {
                 font-weight: bold;
             }
             &:hover {
-                color: #B1663C;
+                color: $color-secondary;
             }
             a {
                 color:inherit;
@@ -101,10 +107,33 @@ section {
 
 // module titre
 h2{
-	font-family: 'Syne';
+	font-family: $font-title;
 	font-weight: 700;
 	font-size: 30px;
-	color: #1D6154
+	color: $color-primary;
+}
+
+// module form
+.form {
+	text-align: left;
+	margin-top:30px;
+	display: flex;
+	flex-direction: column;
+    &__input {
+        height: 50px;
+        font-size: 1.2em;
+    }
+    &__label {
+        margin: 2em 0 1em 0;
+    }
+    &__input, &__textarea {
+        border: none;
+        box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    }
+    &__submit {
+        align-self: center;
+        margin: 2em auto;
+    }
 }
 
 // module button
@@ -185,72 +214,129 @@ h2{
     }
 }
 
+// Section contact
 #contact {
 	width: 50%;
-margin: auto;
-}
-#contact > * {
-	text-align: center;
+    margin: auto;
+    > h2, > p {
+        text-align: center;
+    }
+    h2 {
+        margin-bottom: 20px;
+    }
+} 
 
-}
-
+// Section login
 #login {
 	width: 100%;
 	max-width: 380px;
 	margin: 150px auto;
-}
-
-#contact h2, #login h2{
-	margin-bottom: 20px;
-}
-#login {
 	text-align: center;
-}
-#login a {
-	font-family: 'Work Sans', sans-serif;
-	font-size: 14px;
-	font-weight: 500;
-	color: #3D3D3D;
-}
-#contact form, #login form {
-	text-align: left;
-	margin-top:30px;
-	display: flex;
-	flex-direction: column;
-}
-#login form button {
-	align-self: center;
-	margin: 28px auto;
+    h2{
+        margin-bottom: 20px;
+    }
+    a {
+        font-family: 'Work Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        color: #3D3D3D;
+    }
 }
 
-#contact input, #login input {
-	height: 50px;
-	font-size: 1.2em;
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
-#contact label, #login label {
-	margin: 2em 0 1em 0;
-}
-#contact textarea {
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
-
-input[type="submit"]{
-	font-family: 'Syne';
-	font-weight: 700;
-	color: white;
-	background-color: #1D6154;
-	margin : 2em auto ;
-	width: 180px;
-	text-align: center;
-	border-radius: 60px ;
-}
-
+// Section footer
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
 }
 
+// Aside module Modale
+.modale {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__inner-block {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 630px; 
+        background-color: #FFFFFF;
+        border-radius: 10px;
+        padding: 25px;
+        &__section {
+            display: none;
+            margin: 0;
+            background: red;
+            &__navbar {
+                flex-direction: row-reverse;
+                margin-top: 0;
+                background: yellow;
+                font-size: 24px;
+                margin: 0;
+                i {
+                    cursor: pointer;
+                }
+            }
+            &__title {
+                font-family: $font-primary;
+                font-size: 24px;
+                font-weight: 400;
+                color:#000000;
+                text-align: center;
+                margin: 15px 0 30px 0;
+            }
+            &__content {
+                background: green;
+                margin: 0 75px;
+            }
+            &--show {
+                display: block;
+            }
+        }
+    }
+}
+
+// Modale gallery
+.modale-gallery {
+    &__content {
+        display: grid;
+        grid-template-columns: repeat(5,1fr);
+        gap: 25px 10px;
+        &__photo {
+            position: relative;
+            img {
+                width: 100%;
+                object-fit: contain;
+            }
+            i {
+                display: block;
+                position: absolute;
+                top: 5px; right: 5px;
+                color: #FFFFFF;
+                background: #000000;
+                border-radius: 2px;
+                line-height: 17px;
+                width: 17px;
+                font-size: 11px;
+                text-align: center;
+                cursor: pointer;
+            }
+        }
+        &__break {
+            grid-column: 1 / span 5;
+            margin: 15px 0;
+            border: solid 1px #B3B3B3;
+        }
+        &__button-new {
+            grid-column: 2 / span 3;
+            margin-bottom: 20px;
+        }
+    }
+}
+
+// Modale new

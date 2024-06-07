@@ -34,7 +34,7 @@
 
 <aside class="modale">
 	<div class="modale__inner-block">
-		<section class="modale__inner-block__section modale__inner-block__section--show modale-gallery">
+		<section class="modale__inner-block__section modale-gallery">
 			<header class="modale__inner-block__section__navbar">
 				<i class="fa-solid fa-xmark"></i>
 			</header>
@@ -64,16 +64,35 @@
 					<img src="https://picsum.photos/75/100" alt="">
 					<i class="fa-solid fa-trash-can"></i>
 				</article>
-				<hr class="modale-gallery__content__break">
-				<button class="modale-gallery__content__button-new button button--bg">Ajouter une photo</button>
+				<hr class="modale__inner-block__section__content__break modale-gallery__content__break">
+				<button class="modale__inner-block__section__content__button modale-gallery__content__button-new button button--bg">Ajouter une photo</button>
 			</div>
 		</section>
-		<section class="modale__inner-block__section modale__inner-block__add-form">
+		<section class="modale__inner-block__section modale__inner-block__section--show modale-add">
 			<header class="modale__inner-block__section__navbar">
 				<i class="fa-solid fa-xmark"></i>
 				<i class="fa-solid fa-arrow-left"></i>
 			</header>
 			<h2 class="modale__inner-block__section__title">Ajout photo</h2>
+			<div class="modale__inner-block__section__content modale-add__content">
+				<form class="form modale-add__content__form" method="post" action="#">
+					<label class="form__label modale-add__content__form__file-input" for="add-photo__file">
+						<i class="fa-regular fa-image modale-add__content__form__file-input__icon"></i>
+						<span class="modale-add__content__form__file-input__button">+ Ajouter photo</span>
+						<p class="modale-add__content__form__file-input__format">jpg, png : 4Mo max</p>
+					</label>
+					<input class="form__input form__input--hidden" type="file" name="add-photo__file" id="add-photo__file">
+					<label class="form__label" for="add-photo__title">Titre</label>
+					<input class="form__input" type="text" name="add-photo__title" id="add-photo__title">
+					<label class="form__label" for="add-photo__category">Catégorie</label>
+					<select class="form__select" selected>
+						<option class="form__select__option" selected></option>
+						<option class="form__select__option" value="1">Thème</option>
+					</select>
+				</form>
+				<hr class="modale__inner-block__section__content__break">
+				<button class="form__submit button button--disabled">Valider</button>
+			</div>
 			
 		</section>
 	</div> 

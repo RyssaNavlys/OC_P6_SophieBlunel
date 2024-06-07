@@ -58,7 +58,7 @@ function setupCategories(container,categoriesList,galleryContainer,worksList) {
         let categoryHtml = document.createElement('button');
         categoryHtml.classList.add('button');
         categoryHtml.setAttribute('data-category_id',category.id);
-        if(category.id===0) { categoryHtml.classList.add('button-bg'); }
+        if(category.id===0) { categoryHtml.classList.add('button--bg'); }
         categoryHtml.innerHTML = category.name;
         container.appendChild(categoryHtml);
         // create event listener
@@ -72,14 +72,14 @@ function setupCategories(container,categoriesList,galleryContainer,worksList) {
 // function to change filter
 function selectCategory(container,categoryToSelect) {
     // unselect previously selected category (categories)
-    container.querySelectorAll('.button-bg').forEach((category) => {
+    container.querySelectorAll('.button--bg').forEach((category) => {
         if(!(Number(category.dataset.category_id) === categoryToSelect.id)) {
-            category.classList.remove('button-bg');
+            category.classList.remove('button--bg');
         }
     });
     // select right category
     const filterToSelect = container.querySelectorAll(`button[data-category_id='${categoryToSelect.id}']`);
-    filterToSelect[0].classList.add('button-bg');
+    filterToSelect[0].classList.add('button--bg');
 }
 
 // Filter gallery : hide non-filtered works

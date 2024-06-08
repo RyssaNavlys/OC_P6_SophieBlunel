@@ -114,10 +114,11 @@ h2 {
   text-align: left;
   margin-top: 30px;
   display: flex;
+  row-gap: 2em;
   flex-direction: column;
 }
 .form__label {
-  margin: 2em 0 1em 0;
+  margin: 0 0 -1em 0;
 }
 .form__input, .form__textarea, .form__select {
   height: 50px;
@@ -131,7 +132,6 @@ h2 {
 }
 .form__submit {
   align-self: center;
-  margin: 2em auto;
 }
 .form__select__option {
   border: 0;
@@ -140,7 +140,6 @@ h2 {
 .button {
   display: inline-block;
   padding: 10px 20px;
-  margin: 0 5px 50px 5px;
   border: solid 1px #1D6154;
   background-color: white;
   font-family: "Syne";
@@ -202,6 +201,10 @@ h2 {
 #portfolio .categories {
   width: 100%;
   text-align: center;
+  margin-bottom: 50px;
+}
+#portfolio .categories__button {
+  margin: 0 5px;
 }
 #portfolio .gallery {
   width: 100%;
@@ -225,16 +228,19 @@ h2 {
   margin-bottom: 20px;
 }
 
-#login {
+.login {
   width: 100%;
   max-width: 380px;
   margin: 150px auto;
   text-align: center;
 }
-#login h2 {
+.login__title {
   margin-bottom: 20px;
 }
-#login a {
+.login__form {
+  margin-bottom: 2em;
+}
+.login__forgotten-password {
   font-family: "Work Sans", sans-serif;
   font-size: 14px;
   font-weight: 500;
@@ -247,18 +253,18 @@ footer nav ul {
   margin: 2em;
 }
 
-.modale {
+.modal-window {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
 }
-.modale__inner-block {
+.modal-window__inner-block {
   box-sizing: border-box;
   width: 100%;
   max-width: 630px;
@@ -266,20 +272,20 @@ footer nav ul {
   border-radius: 10px;
   padding: 25px;
 }
-.modale__inner-block__section {
+.modal-window__inner-block__section {
   display: none;
   margin: 0;
 }
-.modale__inner-block__section__navbar {
+.modal-window__inner-block__section__navbar {
   flex-direction: row-reverse;
   margin-top: 0;
   font-size: 24px;
   margin: 0;
 }
-.modale__inner-block__section__navbar i {
+.modal-window__inner-block__section__navbar i {
   cursor: pointer;
 }
-.modale__inner-block__section__title {
+.modal-window__inner-block__section__title {
   font-family: "Work Sans";
   font-size: 24px;
   font-weight: 400;
@@ -287,35 +293,38 @@ footer nav ul {
   text-align: center;
   margin: 15px 0 30px 0;
 }
-.modale__inner-block__section__content {
+.modal-window__inner-block__section__content {
   margin: 0 75px;
   text-align: center;
 }
-.modale__inner-block__section__content__break {
+.modal-window__inner-block__section__content__break {
   margin: 15px 0;
   border: solid 1px #B3B3B3;
 }
-.modale__inner-block__section__content__button {
+.modal-window__inner-block__section__content__button {
   margin: 0 auto 20px auto;
 }
-.modale__inner-block__section--show {
+.modal-window__inner-block__section--display {
   display: block;
 }
+.modal-window--display {
+  display: flex;
+}
 
-.modale-gallery__content {
+.modal-gallery__content {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 25px 10px;
 }
-.modale-gallery__content__photo {
+.modal-gallery__content__photo {
   position: relative;
 }
-.modale-gallery__content__photo img {
+.modal-gallery__content__photo img {
   width: 100%;
   -o-object-fit: contain;
      object-fit: contain;
 }
-.modale-gallery__content__photo i {
+.modal-gallery__content__photo i {
   display: block;
   position: absolute;
   top: 5px;
@@ -329,22 +338,22 @@ footer nav ul {
   text-align: center;
   cursor: pointer;
 }
-.modale-gallery__content__break {
+.modal-gallery__content__break {
   grid-column: 1/span 5;
 }
-.modale-gallery__content__button-new {
+.modal-gallery__content__button-new {
   grid-column: 2/span 3;
 }
 
-.modale-add__content {
+.modal-add__content {
   display: flex;
   flex-direction: column;
   row-gap: 20px;
 }
-.modale-add__content__form {
+.modal-add__content__form {
   margin-top: 0;
 }
-.modale-add__content__form__file-input {
+.modal-add__content__form__file-input {
   background-color: #E8F1F6;
   padding: 20px;
   margin: 0;
@@ -355,11 +364,11 @@ footer nav ul {
   text-align: center;
   cursor: pointer;
 }
-.modale-add__content__form__file-input__icon {
+.modal-add__content__form__file-input__icon {
   color: #B9C5CC;
   font-size: 60px;
 }
-.modale-add__content__form__file-input__button {
+.modal-add__content__form__file-input__button {
   background-color: #CBD6DC;
   color: #306685;
   padding: 10px 30px;
@@ -367,11 +376,11 @@ footer nav ul {
   font-size: 14px;
   font-weight: 500;
 }
-.modale-add__content__form__file-input__format {
+.modal-add__content__form__file-input__format {
   color: #444444;
   font-size: 10px;
 }
-.modale-add__content__form input, .modale-add__content__form select, .modale-add__content__form option {
+.modal-add__content__form input, .modal-add__content__form select, .modal-add__content__form option {
   font-size: 14px;
   color: #444444;
   padding: 0 10px;

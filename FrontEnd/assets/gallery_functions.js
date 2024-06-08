@@ -56,7 +56,7 @@ function setupCategories(container,categoriesList,galleryContainer,worksList) {
     for(let category of categoriesList) {
         // Create button
         let categoryHtml = document.createElement('button');
-        categoryHtml.classList.add('button');
+        categoryHtml.classList.add('button','categories__button');
         categoryHtml.setAttribute('data-category_id',category.id);
         if(category.id===0) { categoryHtml.classList.add('button--bg'); }
         categoryHtml.innerHTML = category.name;

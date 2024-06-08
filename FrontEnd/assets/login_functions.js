@@ -12,7 +12,6 @@ function changeLoginMenu() {
         }
     };
     // change on click function
-    console.log(loginLink);
     loginLink.addEventListener('click', (mouseEvent) => {
         mouseEvent.preventDefault();
         window.sessionStorage.clear();

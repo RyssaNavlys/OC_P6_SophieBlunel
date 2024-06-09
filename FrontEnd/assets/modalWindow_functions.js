@@ -10,7 +10,7 @@ function initGalleryEdition() {
     editButton.addEventListener('click', () => {
         // Affichage de la modale
         displayModalWindow(); // show global modale window
-        selectModalSection('modal-add'); // show "modale-gallery" modal window content
+        selectModalSection('modal-gallery'); // show "modale-gallery" modal window content
     });
     
 }
@@ -61,14 +61,50 @@ function selectModalSection(className) {
             });
         }
         // add events listener modal specific (del // check form + post) <-- simply switch ?
-        switch(modalSection) {
+        switch(className) {
             case "modal-gallery":
-                console.log('specific events for gallery');
+                // get workslist from local storage
+                let worksList = JSON.parse(window.localStorage.getItem('worksList'));
+                initModalGallery(worksList);
                 break;
             case "modal-add":
-                console.log('specific events for add');
-                break;
-                
+                initModalAdd();
+                break;  
         }
     }
+}
+
+function initModalGallery(worksList) {
+    // get modal-gallery content container and delimiter to insert article before
+    const modalGalleryContent = document.querySelector(".modal-gallery__content");
+    const delimiter = modalGalleryContent.querySelector('hr');
+
+    // onlyfirst time or empty gallery before ?
+    const modalCurrentGallery = modalGalleryContent.querySelectorAll('article');
+    modalCurrentGallery.forEach(node => node.remove());
+
+    // add workslist dynamically
+    for(let work of worksList) {
+        // article creation
+        let article = document.createElement('article');
+        article.classList.add('modal-gallery__content__photo');
+        article.innerHTML = `<img src="${work.imageUrl}" alt="${work.imageUrl}">`;
+        articleDelButton = document.createElement('i');
+        articleDelButton.classList.add('fa-solid', 'fa-trash-can');
+        article.appendChild(articleDelButton);
+        modalGalleryContent.insertBefore(article,delimiter);
+        // event listener creation
+        articleDelButton.addEventListener('click', () => {
+            deleteWork(work);
+        });
+    }
+    // setup "add work" button
+    modalGalleryAddButton = modalGalleryContent.querySelector('.modal-gallery__content__button-new');
+    modalGalleryAddButton.addEventListener("click", () => {
+        selectModalSection('modal-add');
+    });
+}
+
+function deleteWork(work) {
+    console.log("delete work with id " + work.id);
 }

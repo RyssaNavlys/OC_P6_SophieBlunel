@@ -22,9 +22,13 @@ function initGallery() {
                 const categoriesList = setupGallery(galleryContainer,worksList);
                 // Setup filters (display categories + setup events listeners)
                 setupCategories(categoriesContainer,categoriesList,galleryContainer,worksList);
+                // Store works and categories for other use
+                window.localStorage.setItem('worksList',JSON.stringify(worksList));
+                window.localStorage.setItem('categoriesList',JSON.stringify(categoriesList))
             }
         });
 }
+
 
 // function to add figures
 function setupGallery(container,figuresList) {

@@ -380,8 +380,16 @@ footer nav ul {
   color: #444444;
   font-size: 10px;
 }
+.modal-add__content__form__file-input__preview {
+  height: 200px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
 .modal-add__content__form input, .modal-add__content__form select, .modal-add__content__form option {
   font-size: 14px;
   color: #444444;
   padding: 0 10px;
+}
+.modal-add__content__form__submit {
+  margin: 0 auto 20px auto;
 }/*# sourceMappingURL=style.css.map */

@@ -15,6 +15,8 @@
 	<script src="assets/gallery_functions.js"></script>
 	<script src="assets/login_functions.js"></script>
 	<script src="assets/modalWindow_functions.js"></script>
+	<script src="assets/modalGallery.js"></script>
+	<script src="assets/modalAdd.js"></script>
 	<script src="assets/gallery_exec.js" defer></script>
 
 </head>
@@ -58,17 +60,16 @@
 						<span class="modal-add__content__form__file-input__button">+ Ajouter photo</span>
 						<p class="modal-add__content__form__file-input__format">jpg, png : 4Mo max</p>
 					</label>
-					<input class="form__input form__input--hidden" type="file" name="add-photo__file" id="add-photo__file">
+					<input class="form__input form__input--hidden" type="file" accept=".png, .jpg, .jpeg" name="image" id="add-photo__file">
 					<label class="form__label" for="add-photo__title">Titre</label>
-					<input class="form__input" type="text" name="add-photo__title" id="add-photo__title">
+					<input class="form__input" type="text" name="title" id="add-photo__title">
 					<label class="form__label" for="add-photo__category">Catégorie</label>
-					<select class="form__select" selected>
+					<select class="form__select" name="category">
 						<option class="form__select__option" selected></option>
-						<option class="form__select__option" value="1">Thème</option>
 					</select>
+					<hr class="modal-window__inner-block__section__content__break">
+					<button class="form__submit button button--disabled modal-window__inner-block__section__content__form__submit">Valider</button>
 				</form>
-				<hr class="modal-window__inner-block__section__content__break">
-				<button class="form__submit button button--disabled">Valider</button>
 			</div>
 			
 		</section>

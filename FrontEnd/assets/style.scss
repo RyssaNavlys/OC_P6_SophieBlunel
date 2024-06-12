@@ -398,11 +398,18 @@ footer nav ul {
                     color: #444444;
                     font-size: 10px;
                 }
+                &__preview {
+                    height: 200px;
+                    object-fit: contain;
+                }
             }
             input, select, option {
                 font-size: 14px;
                 color: #444444;
                 padding: 0 10px;
+            }
+            &__submit {
+                margin: 0 auto 20px auto;
             }
         }
     }

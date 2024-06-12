@@ -7,5 +7,5 @@ initGallery();
 // Run edit script if token is stored (ie login succeed)
 if(window.sessionStorage.getItem('token')) {
     changeLoginMenu();
-    initGalleryEdition();
+    initModalWindow();
 }

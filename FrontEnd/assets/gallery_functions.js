@@ -15,20 +15,28 @@ function initGallery() {
             if(worksList === false) {
                 return false;
             } else {
-                // Define gallery and categories filters containers
-                const galleryContainer = document.getElementById("portfolio").querySelector(".gallery");
-                const categoriesContainer = document.querySelector(".categories");
-                // Setup gallery with entire works list => return categories list
-                const categoriesList = setupGallery(galleryContainer,worksList);
-                // Setup filters (display categories + setup events listeners)
-                setupCategories(categoriesContainer,categoriesList,galleryContainer,worksList);
                 // Store works and categories for other use
                 window.localStorage.setItem('worksList',JSON.stringify(worksList));
-                window.localStorage.setItem('categoriesList',JSON.stringify(categoriesList))
+                updateGallery();
             }
         });
 }
 
+// updating gallery
+function updateGallery() {
+    let worksList = JSON.parse(window.localStorage.getItem("worksList"));
+    // Define gallery and categories filters containers
+    const galleryContainer = document.getElementById("portfolio").querySelector(".gallery");
+    const categoriesContainer = document.querySelector(".categories");
+    // Setup gallery with entire works list => return categories list
+    const categoriesList = setupGallery(galleryContainer,worksList);
+    // Setup filters (display categories + setup events listeners)
+    let catList = window.localStorage.getItem("categoriesList");
+    if(typeof catList !== 'undefined' || JSON.parse(cat).length !== categoriesContainer.children.length) {
+        setupCategories(categoriesContainer,categoriesList,galleryContainer,worksList);
+        window.localStorage.setItem('categoriesList',JSON.stringify(categoriesList))
+    }
+}
 
 // function to add figures
 function setupGallery(container,figuresList) {

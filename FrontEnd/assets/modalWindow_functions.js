@@ -68,22 +68,91 @@ function selectModalSection(className) {
 
 
 // Modal : add work
-function addWork(work) {
+function addWork(workFormData) {
+    console.log("add work :");
+    //categoryId = Number(workFormData.get("category")); // parseInt
+    //workFormData.set("category",categoryId);
+    console.log(workFormData);
+    const token = window.sessionStorage.getItem("token");
+    // API : add work
+    fetch(host + '/works', {
+        method: 'POST',
+        headers: {
+                'Authorization': `Bearer ${token}`,
+                },
+        body: workFormData,
+    }).then((response) => {
+        if(response.status !== 201) {
+            console.log("API : erreur d'ajout du work");
+            return false;
+        } else {
+            return response.json();
+        }
+    }).then((newWork) => {
+        // Edit localStorage
+        /*const worksList = JSON.parse(window.localStorage.getItem("worksList"));
+        worksList.push(newWork);
+        window.localStorage.setItem("worksList",JSON.stringify(worksList));*/
 
-    console.log("add work");
-    console.log(work);
-    updateEveryGallery()
+        // Load all works from API
+        fetch(host + "/works")
+        .then(response => {
+            if(response.status === 200) {
+                return response.json();
+            } else {
+                console.log('API : erreur lors de la récupération des travaux.');
+                return false;
+            }
+        })
+        .then(worksList => {
+            if(worksList === false) {
+                return false;
+            } else {
+                // Store works
+                console.log('try to store');
+                window.localStorage.setItem('worksList',JSON.stringify(worksList));
+                // update every gallery
+                updateEveryGallery();
+                closeModalWindow();
+            }
+        });
+        /*console.log(window.localStorage.getItem("worksList"));
+        window.localStorage.removeItem("worksList");
+        console.log(window.localStorage.getItem("worksList"));
+        initGallery();
+        console.log(window.localStorage.getItem("worksList"));*/
+    });
 }
 
 // Modal : delete work
 function deleteWork(work) {
     console.log("delete work with id " + work.id);
-    updateEveryGallery()
+    if(confirm("Voulez-vous vraiment supprimer le travail : " + work.title)) {
+        console.log("confirmé");
+        const token = window.sessionStorage.getItem("token");
+        // API : delete work
+        fetch(host + "/works/" + work.id, {
+            method: 'DELETE',
+            headers: {
+                    'Authorization': `Bearer ${token}`,
+                    },
+        }).then((response) => {
+            if(response.status !== 204) {
+                console.log("API : erreur de suppression du work");
+                console.log(response);
+            } else {
+                // Edit localStorage
+                const worksList = JSON.parse(window.localStorage.getItem("worksList"));
+                const filteredWorksList = worksList.filter((workElement) => workElement.id !== work.id);
+                window.localStorage.setItem("worksList",JSON.stringify(filteredWorksList));
+                updateEveryGallery();
+            }
+        });
+    }
 }
 
 function updateEveryGallery() {
     dropModalGallery();
     updateModalGallery();
-    // update gallery index.html
-
+    updateGallery();
 }

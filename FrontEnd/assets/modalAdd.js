@@ -35,7 +35,7 @@ function prepareModalAdd() {
         checkForm(formData,addFormSubmit);
     });
     addFormTitle.addEventListener("input",() => {
-        console.log(addFormTitle);
+        //console.log(addFormTitle);
         // Get data from form
         const formData = new FormData(addForm);
         // check input
@@ -44,7 +44,7 @@ function prepareModalAdd() {
 
     });
     addFormCat.addEventListener("change",() => {
-        console.log(addFormCat);
+        //console.log(addFormCat);
         // Get data from form
         const formData = new FormData(addForm);
         // check input
@@ -78,19 +78,26 @@ function modalAddCategories(addFormCat) {
 function submitAddForm(event) {
     const addForm = document.querySelector(".modal-add__content__form");
     const formData = new FormData(addForm);
+    // add work to db + dynamically to galleries
     addWork(formData);
+    // reset form
+    addForm.reset();
+    const addFormImgLabel = addForm.querySelector('.modal-add__content__form__file-input');
+    addFormImgLabel.innerHTML=` <i class="fa-regular fa-image modal-add__content__form__file-input__icon"></i>
+						        <span class="modal-add__content__form__file-input__button">+ Ajouter photo</span>
+						        <p class="modal-add__content__form__file-input__format">jpg, png : 4Mo max</p>`;
 }
 
 // check form to activate or deactivate send button
 function checkForm(formData,submitButton) {
-    console.log(formData.get("title"));
+    //console.log(formData.get("title"));
     if(formData.get("image").name !== "" && formData.get("category") !== "" && formData.get("title") !== "") {
-        console.log("activate button");
+        //console.log("activate button");
         submitButton.classList.remove("button--disabled");
         submitButton.classList.add("button--bg");
         submitButton.addEventListener('click', submitAddForm);
     } else {
-        console.log("deactivate button");
+        //console.log("deactivate button");
         submitButton.classList.add("button--disabled");
         submitButton.classList.remove("button--bg");
         submitButton.removeEventListener('click',submitAddForm);

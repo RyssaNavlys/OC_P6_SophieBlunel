@@ -1,6 +1,7 @@
 
 // Gallery initialization
 function initGallery() {
+    console.log("init gallery");
     // Load all works from API
     fetch(host + "/works")
         .then(response => {
@@ -15,8 +16,10 @@ function initGallery() {
             if(worksList === false) {
                 return false;
             } else {
-                // Store works and categories for other use
+                // Store works
+                console.log('try to store');
                 window.localStorage.setItem('worksList',JSON.stringify(worksList));
+                // update gallery displayed
                 updateGallery();
             }
         });
@@ -40,6 +43,8 @@ function updateGallery() {
 
 // function to add figures
 function setupGallery(container,figuresList) {
+    console.log("début setupgallery");
+    console.log(figuresList);
     // prepare categoriesList
     const categoriesIdList = new Set(['Tous']); // get rid of duplicated data
     const categoriesList = [{'id':0,'name':'Tous'}];
@@ -64,6 +69,8 @@ function setupGallery(container,figuresList) {
 
 // function to add categories
 function setupCategories(container,categoriesList,galleryContainer,worksList) {
+    // erase container content
+    container.innerHTML="";
     // Create every categories
     for(let category of categoriesList) {
         // Create button

@@ -169,6 +169,16 @@ h2{
     }
 }
 
+// module error
+.error {
+    color: #990000;
+    padding: 10px;
+    border: solid 1px #990000;
+    display: none;
+    &--display {
+        display: block;
+    }
+}
 
 // Section introduction
 #introduction {
@@ -335,6 +345,9 @@ footer nav ul {
         display: grid;
         grid-template-columns: repeat(5,1fr);
         gap: 25px 10px;
+        &__error {
+            grid-column: 1 / span 5; 
+        }
         &__photo {
             position: relative;
             img {

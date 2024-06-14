@@ -10,8 +10,7 @@
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 
-	<script src="assets/login_functions.js"></script>
-	<script src="assets/login_exec.js" defer></script>
+	<script type="module" src="assets/login.js"></script>
 
 </head>
 <body>
@@ -29,6 +28,7 @@
 <main>
 	<section class="login" id="login">
 		<h2 class="login__title">Log In</h2>
+		<p class="error login__error"></p>
 		<form class="form login__form" action="#" method="post">
 			<label class="form__label" for="email">Email</label>
 			<input class="form__input" type="email" name="email" id="email" required value="sophie.bluel@test.tld">

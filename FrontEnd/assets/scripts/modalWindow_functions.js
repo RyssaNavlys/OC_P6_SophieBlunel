@@ -1,6 +1,16 @@
+// import config file
+import { host } from "./config.js";
+
+// import error function
+import { error } from "./utils.js";
+
+// import specific modal sections function
+import { prepareModalGallery, dropModalGallery, updateModalGallery } from "./modalGallery.js";
+import { prepareModalAdd } from "./modalAdd.js";
+import { updateGallery } from "./gallery_functions.js";
 
 // Initiate edition
-function initModalWindow() {
+export function initModalWindow() {
     // Adding edit button
     const editButton = document.createElement('span');
     editButton.innerHTML='<i class="fa-regular fa-pen-to-square"></i>modifier';
@@ -40,14 +50,14 @@ function hideModalSections() {
 }
 
 // SelectModalSection (display)
-function selectModalSection(className) {
+export function selectModalSection(className) {
     // unselect every other selected section
     hideModalSections();
     // get section with className; if not found => close modal window
     const modalSection = document.querySelector('.' + className);
+    // if modal Section doesn't exist, close modal window
     if(!modalSection) {
         closeModalWindow();
-        return false;
     } else {
         // add display class
         modalSection.classList.add('modal-window__inner-block__section--display');
@@ -68,11 +78,7 @@ function selectModalSection(className) {
 
 
 // Modal : add work
-function addWork(workFormData) {
-    console.log("add work :");
-    //categoryId = Number(workFormData.get("category")); // parseInt
-    //workFormData.set("category",categoryId);
-    console.log(workFormData);
+export function addWork(workFormData) {
     const token = window.sessionStorage.getItem("token");
     // API : add work
     fetch(host + '/works', {
@@ -82,53 +88,47 @@ function addWork(workFormData) {
                 },
         body: workFormData,
     }).then((response) => {
-        if(response.status !== 201) {
-            console.log("API : erreur d'ajout du work");
-            return false;
+        if(!response.ok) {
+            throw "L'ajout n'a pas fonctionné. Vérifiez vos données et réessayez plus tard.";
         } else {
             return response.json();
         }
     }).then((newWork) => {
-        // Edit localStorage
-        /*const worksList = JSON.parse(window.localStorage.getItem("worksList"));
-        worksList.push(newWork);
-        window.localStorage.setItem("worksList",JSON.stringify(worksList));*/
-
         // Load all works from API
         fetch(host + "/works")
         .then(response => {
-            if(response.status === 200) {
+            if(response.ok) {
                 return response.json();
             } else {
-                console.log('API : erreur lors de la récupération des travaux.');
-                return false;
+                // reset form
+                document.querySelector(".modal-add__content__form").reset();
+                throw "L'ajout a réussi mais une erreur est survenue durant la mise à jour des gallery : veuillez rafraichir la page."
             }
         })
         .then(worksList => {
-            if(worksList === false) {
-                return false;
-            } else {
-                // Store works
-                console.log('try to store');
-                window.localStorage.setItem('worksList',JSON.stringify(worksList));
-                // update every gallery
-                updateEveryGallery();
-                closeModalWindow();
-            }
+            // Store works
+            window.sessionStorage.setItem('worksList',JSON.stringify(worksList));
+            // update every gallery
+            updateEveryGallery();
+            closeModalWindow();
+        }).catch((errorMessage) => {
+            // error container
+            const errorContainer = document.querySelector(".modal-add").querySelector(".error");
+            //display error
+            error(errorContainer,errorMessage);
         });
-        /*console.log(window.localStorage.getItem("worksList"));
-        window.localStorage.removeItem("worksList");
-        console.log(window.localStorage.getItem("worksList"));
-        initGallery();
-        console.log(window.localStorage.getItem("worksList"));*/
+    }).catch((errorMessage) => {
+        // error container
+        const errorContainer = document.querySelector(".modal-add").querySelector(".error");
+        //display error
+        error(errorContainer,errorMessage);
     });
 }
 
 // Modal : delete work
-function deleteWork(work) {
-    console.log("delete work with id " + work.id);
+export function deleteWork(work) {
+    // confirmation window
     if(confirm("Voulez-vous vraiment supprimer le travail : " + work.title)) {
-        console.log("confirmé");
         const token = window.sessionStorage.getItem("token");
         // API : delete work
         fetch(host + "/works/" + work.id, {
@@ -137,16 +137,20 @@ function deleteWork(work) {
                     'Authorization': `Bearer ${token}`,
                     },
         }).then((response) => {
-            if(response.status !== 204) {
-                console.log("API : erreur de suppression du work");
-                console.log(response);
+            if(!response.ok) {
+                throw "Erreur de suppression de l'élément. Veuillez retenter ultérieurement.";
             } else {
-                // Edit localStorage
-                const worksList = JSON.parse(window.localStorage.getItem("worksList"));
+                // Edit sessionStorage
+                const worksList = JSON.parse(window.sessionStorage.getItem("worksList"));
                 const filteredWorksList = worksList.filter((workElement) => workElement.id !== work.id);
-                window.localStorage.setItem("worksList",JSON.stringify(filteredWorksList));
+                window.sessionStorage.setItem("worksList",JSON.stringify(filteredWorksList));
                 updateEveryGallery();
             }
+        }).catch((errorMessage) => {
+            // error container
+            let errorContainer = document.querySelector(".modal-gallery").querySelector(".error");
+            // display error
+            error(errorContainer,errorMessage);
         });
     }
 }

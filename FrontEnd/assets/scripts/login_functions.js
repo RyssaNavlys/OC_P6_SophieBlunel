@@ -1,6 +1,6 @@
 
 // change menu login -> logout
-function changeLoginMenu() {
+export function changeLoginMenu() {
     const menuLinksList = document.querySelector('header nav ul').getElementsByTagName('a');
     // change link label
     let loginLink;

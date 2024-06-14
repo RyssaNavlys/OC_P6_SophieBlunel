@@ -160,6 +160,16 @@ h2 {
   cursor: not-allowed;
 }
 
+.error {
+  color: #990000;
+  padding: 10px;
+  border: solid 1px #990000;
+  display: none;
+}
+.error--display {
+  display: block;
+}
+
 #introduction {
   display: flex;
   align-items: center;
@@ -315,6 +325,9 @@ footer nav ul {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 25px 10px;
+}
+.modal-gallery__content__error {
+  grid-column: 1/span 5;
 }
 .modal-gallery__content__photo {
   position: relative;

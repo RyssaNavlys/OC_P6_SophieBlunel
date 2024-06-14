@@ -1,50 +1,59 @@
+// import config
+import { host } from './config.js';
 
-// Gallery initialization
-function initGallery() {
-    console.log("init gallery");
+// import error function
+import { error } from "./utils.js";
+
+// Gallery loading
+export function loadGallery() {
     // Load all works from API
-    fetch(host + "/works")
+    try{
+        fetch(host + "/works")
         .then(response => {
-            if(response.status === 200) {
+            if(response.ok) {
                 return response.json();
             } else {
-                console.log('API : erreur lors de la récupération des travaux.');
-                return false;
+                throw 'API : erreur lors de la récupération des travaux.';
             }
         })
         .then(worksList => {
-            if(worksList === false) {
-                return false;
-            } else {
-                // Store works
-                console.log('try to store');
-                window.localStorage.setItem('worksList',JSON.stringify(worksList));
-                // update gallery displayed
-                updateGallery();
-            }
+            // Store works
+            window.sessionStorage.setItem('worksList',JSON.stringify(worksList));
+            // update gallery displayed
+            updateGallery();
         });
+    } catch(errorMessage) {
+        // API : invisible error
+        console.log(errorMessage);
+    }
 }
 
 // updating gallery
-function updateGallery() {
-    let worksList = JSON.parse(window.localStorage.getItem("worksList"));
-    // Define gallery and categories filters containers
-    const galleryContainer = document.getElementById("portfolio").querySelector(".gallery");
-    const categoriesContainer = document.querySelector(".categories");
-    // Setup gallery with entire works list => return categories list
-    const categoriesList = setupGallery(galleryContainer,worksList);
-    // Setup filters (display categories + setup events listeners)
-    let catList = window.localStorage.getItem("categoriesList");
-    if(typeof catList !== 'undefined' || JSON.parse(cat).length !== categoriesContainer.children.length) {
+export function updateGallery() {
+    try {
+        let worksList = JSON.parse(window.sessionStorage.getItem("worksList"));
+        if(!Array.isArray(worksList)) {
+            throw 'updateGallery : Aucune donnée à afficher';
+        }
+        // Define gallery and categories filters containers
+        const galleryContainer = document.getElementById("portfolio").querySelector(".gallery");
+        const categoriesContainer = document.querySelector(".categories");
+        // Setup gallery with entire works list => return categories list
+        const categoriesList = setupGallery(galleryContainer,worksList);
+        // Setup filters (display categories + setup events listeners)
+        let catList = window.sessionStorage.getItem("categoriesList");
+        if(catList !== JSON.stringify(categoriesList)) {
+            window.sessionStorage.setItem('categoriesList',JSON.stringify(categoriesList))
+        }
         setupCategories(categoriesContainer,categoriesList,galleryContainer,worksList);
-        window.localStorage.setItem('categoriesList',JSON.stringify(categoriesList))
+    } catch(errorMessage) {
+        // API : invisible error
+        console.log(errorMessage);
     }
 }
 
 // function to add figures
 function setupGallery(container,figuresList) {
-    console.log("début setupgallery");
-    console.log(figuresList);
     // prepare categoriesList
     const categoriesIdList = new Set(['Tous']); // get rid of duplicated data
     const categoriesList = [{'id':0,'name':'Tous'}];
@@ -96,9 +105,12 @@ function selectCategory(container,categoryToSelect) {
             category.classList.remove('button--bg');
         }
     });
-    // select right category
-    const filterToSelect = container.querySelectorAll(`button[data-category_id='${categoryToSelect.id}']`);
-    filterToSelect[0].classList.add('button--bg');
+    // select right category (or "tous" if category Id doesn't exist)
+    const filterToSelect = container.querySelector(`button[data-category_id='${categoryToSelect.id}']`);
+    if(typeof(filterToSelect) === "undefined") {
+        filterToSelect = container.querySelector(`button[data-category_id='0']`);
+    }
+    filterToSelect.classList.add('button--bg');
 }
 
 // Filter gallery : hide non-filtered works

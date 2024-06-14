@@ -12,12 +12,7 @@
 
 	<script src="https://kit.fontawesome.com/4e6e3d1944.js" crossorigin="anonymous"></script>
 
-	<script src="assets/gallery_functions.js"></script>
-	<script src="assets/login_functions.js"></script>
-	<script src="assets/modalWindow_functions.js"></script>
-	<script src="assets/modalGallery.js"></script>
-	<script src="assets/modalAdd.js"></script>
-	<script src="assets/gallery_exec.js" defer></script>
+	<script type="module" src="assets/index.js"></script>
 
 </head>
 <body>
@@ -42,6 +37,7 @@
 			</header>
 			<h2 class="modal-window__inner-block__section__title">Galerie photo</h2>
 			<div class="modal-window__inner-block__section__content modal-gallery__content">
+				<p class='error modal-gallery__content__error'></p>
 				
 				<hr class="modal-window__inner-block__section__content__break modal-gallery__content__break">
 				<button class="modal-window__inner-block__section__content__button modal-gallery__content__button-new button button--bg">Ajouter une photo</button>
@@ -55,17 +51,18 @@
 			<h2 class="modal-window__inner-block__section__title">Ajout photo</h2>
 			<div class="modal-window__inner-block__section__content modal-add__content">
 				<form class="form modal-add__content__form" method="post" action="#">
+					<p class="error"></p>
 					<label class="form__label modal-add__content__form__file-input" for="add-photo__file">
 						<i class="fa-regular fa-image modal-add__content__form__file-input__icon"></i>
 						<span class="modal-add__content__form__file-input__button">+ Ajouter photo</span>
-						<p class="modal-add__content__form__file-input__format">jpg, png : 4Mo max</p>
+						<span class="modal-add__content__form__file-input__format">jpg, png : 4Mo max</span>
 					</label>
 					<input class="form__input form__input--hidden" type="file" accept=".png, .jpg, .jpeg" name="image" id="add-photo__file">
 					<label class="form__label" for="add-photo__title">Titre</label>
 					<input class="form__input" type="text" name="title" id="add-photo__title">
 					<label class="form__label" for="add-photo__category">Catégorie</label>
-					<select class="form__select" name="category">
-						<option class="form__select__option" selected></option>
+					<select class="form__select" name="category" id="add-photo__category">
+						<option class="form__select__option" label=" " selected></option>
 					</select>
 					<hr class="modal-window__inner-block__section__content__break">
 					<button class="form__submit button button--disabled modal-window__inner-block__section__content__form__submit">Valider</button>

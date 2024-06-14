@@ -2,7 +2,7 @@
 
 Code du projet 6 d'intégrateur web.
 
-## Information pour le lancer le code
+## les script utilisent les modules (import/export)
 
- - Lancer le backend depuis votre terminal en suivant les instruction du fichier ReadMe.
- - Si vous désirez afficher le code du backend et du frontend, faites le dans 2 instances de VSCode différentes pour éviter tout problème
+- lancer un serveur local pour afficher le frontend (sinon erreur CORS car chargement en local considéré comme opaque)
+=> par exemple dans le dossier frontend : python -m http.server

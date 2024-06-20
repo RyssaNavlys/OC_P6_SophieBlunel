@@ -4,36 +4,13 @@ import { host } from './config.js';
 // import error function
 import { error } from "./utils.js";
 
-// Gallery loading
-export function loadGallery() {
-    // Load all works from API
-    try{
-        fetch(host + "/works")
-        .then(response => {
-            if(response.ok) {
-                return response.json();
-            } else {
-                throw 'API : erreur lors de la récupération des travaux.';
-            }
-        })
-        .then(worksList => {
-            // Store works
-            window.sessionStorage.setItem('worksList',JSON.stringify(worksList));
-            // update gallery displayed
-            updateGallery();
-        });
-    } catch(errorMessage) {
-        // API : invisible error
-        console.log(errorMessage);
-    }
-}
 
 // updating gallery
 export function updateGallery() {
     try {
         let worksList = JSON.parse(window.sessionStorage.getItem("worksList"));
         if(!Array.isArray(worksList)) {
-            throw 'updateGallery : Aucune donnée à afficher';
+            throw new Error('updateGallery : Aucune donnée à afficher');
         }
         // Define gallery and categories filters containers
         const galleryContainer = document.getElementById("portfolio").querySelector(".gallery");
@@ -43,12 +20,12 @@ export function updateGallery() {
         // Setup filters (display categories + setup events listeners)
         let catList = window.sessionStorage.getItem("categoriesList");
         if(catList !== JSON.stringify(categoriesList)) {
-            window.sessionStorage.setItem('categoriesList',JSON.stringify(categoriesList))
+            window.sessionStorage.setItem('categoriesList',JSON.stringify(categoriesList));
         }
         setupCategories(categoriesContainer,categoriesList,galleryContainer,worksList);
-    } catch(errorMessage) {
+    } catch(error) {
         // API : invisible error
-        console.log(errorMessage);
+        console.log(error);
     }
 }
 
@@ -101,7 +78,7 @@ function setupCategories(container,categoriesList,galleryContainer,worksList) {
 function selectCategory(container,categoryToSelect) {
     // unselect previously selected category (categories)
     container.querySelectorAll('.button--bg').forEach((category) => {
-        if(!(Number(category.dataset.category_id) === categoryToSelect.id)) {
+        if(Number(category.dataset.category_id) !== categoryToSelect.id) {
             category.classList.remove('button--bg');
         }
     });

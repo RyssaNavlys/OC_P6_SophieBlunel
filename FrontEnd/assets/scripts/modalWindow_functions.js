@@ -11,24 +11,13 @@ import { updateGallery } from "./gallery_functions.js";
 
 // Initiate edition
 export function initModalWindow() {
-    // Adding edit button
-    const editButton = document.createElement('span');
-    editButton.innerHTML='<i class="fa-regular fa-pen-to-square"></i>modifier';
-    editButton.classList.add('portfolioEdit');
-    document.getElementById('portfolio').querySelector('h2').appendChild(editButton);
     // Prépare modal sections
     prepareModalGallery();
     prepareModalAdd();
-    // Display modale onclick
-    editButton.addEventListener('click', () => {
-        // Affichage de la modale
-        openModalWindow();
-        selectModalSection('modal-gallery');
-    });
 }
 
 // function to open modal window (no content)
-function openModalWindow() {
+export function openModalWindow() {
     const modalWindow = document.querySelector('.modal-window');
     modalWindow.classList.add('modal-window--display');
 }
@@ -127,32 +116,29 @@ export function addWork(workFormData) {
 
 // Modal : delete work
 export function deleteWork(work) {
-    // confirmation window
-    if(confirm("Voulez-vous vraiment supprimer le travail : " + work.title)) {
-        const token = window.sessionStorage.getItem("token");
-        // API : delete work
-        fetch(host + "/works/" + work.id, {
-            method: 'DELETE',
-            headers: {
-                    'Authorization': `Bearer ${token}`,
-                    },
-        }).then((response) => {
-            if(!response.ok) {
-                throw "Erreur de suppression de l'élément. Veuillez retenter ultérieurement.";
-            } else {
-                // Edit sessionStorage
-                const worksList = JSON.parse(window.sessionStorage.getItem("worksList"));
-                const filteredWorksList = worksList.filter((workElement) => workElement.id !== work.id);
-                window.sessionStorage.setItem("worksList",JSON.stringify(filteredWorksList));
-                updateEveryGallery();
-            }
-        }).catch((errorMessage) => {
-            // error container
-            let errorContainer = document.querySelector(".modal-gallery").querySelector(".error");
-            // display error
-            error(errorContainer,errorMessage);
-        });
-    }
+    const token = window.sessionStorage.getItem("token");
+    // API : delete work
+    fetch(host + "/works/" + work.id, {
+        method: 'DELETE',
+        headers: {
+                'Authorization': `Bearer ${token}`,
+                },
+    }).then((response) => {
+        if(!response.ok) {
+            throw "Erreur de suppression de l'élément. Veuillez retenter ultérieurement.";
+        } else {
+            // Edit sessionStorage
+            const worksList = JSON.parse(window.sessionStorage.getItem("worksList"));
+            const filteredWorksList = worksList.filter((workElement) => workElement.id !== work.id);
+            window.sessionStorage.setItem("worksList",JSON.stringify(filteredWorksList));
+            updateEveryGallery();
+        }
+    }).catch((errorMessage) => {
+        // error container
+        let errorContainer = document.querySelector(".modal-gallery").querySelector(".error");
+        // display error
+        error(errorContainer,errorMessage);
+    });
 }
 
 function updateEveryGallery() {

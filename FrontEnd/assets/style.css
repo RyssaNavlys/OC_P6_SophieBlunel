@@ -61,6 +61,28 @@ body {
   background-color: #FFFEF8;
 }
 
+.edition-mode {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #000000;
+}
+.edition-mode--display {
+  display: block;
+}
+.edition-mode__title {
+  text-align: center;
+  line-height: 59px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #ffffff;
+}
+.edition-mode__title__icon {
+  margin-right: 10px;
+}
+
 header {
   display: flex;
   justify-content: space-between;
@@ -97,6 +119,9 @@ header nav ul li:hover {
 header nav ul li a {
   color: inherit;
   text-decoration: none;
+}
+header.edition-mode-header {
+  margin-top: 110px;
 }
 
 section {
@@ -215,6 +240,10 @@ h2 {
 }
 #portfolio .categories__button {
   margin: 0 5px;
+  font-size: 16px;
+}
+#portfolio .categories--hide {
+  display: none;
 }
 #portfolio .gallery {
   width: 100%;

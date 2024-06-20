@@ -15,6 +15,6 @@ export function changeLoginMenu() {
     loginLink.addEventListener('click', (mouseEvent) => {
         mouseEvent.preventDefault();
         window.sessionStorage.clear();
-        window.location.reload();
+        //window.location.reload();
     })
 }

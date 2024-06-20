@@ -24,7 +24,8 @@ export function prepareModalAdd() {
         const img = formData.get('image');
         // Display image in label (check if file type is image)
         const addFormImgLabel = addForm.querySelector('.modal-add__content__form__file-input');
-        if(img.type.startsWith("image/")) {
+        if(img.type.startsWith("image/") && img.size <= 4194304) {
+            console.log(img.size);
             addFormImgLabel.innerHTML="";
             let imgHtml = document.createElement('img');
             imgHtml.classList.add('modal-add__content__form__file-input__preview')

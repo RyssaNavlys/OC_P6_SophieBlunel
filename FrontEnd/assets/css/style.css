@@ -363,8 +363,7 @@ footer nav ul {
 }
 .modal-gallery__content__photo img {
   width: 100%;
-  -o-object-fit: contain;
-     object-fit: contain;
+  object-fit: contain;
 }
 .modal-gallery__content__photo i {
   display: block;
@@ -424,8 +423,7 @@ footer nav ul {
 }
 .modal-add__content__form__file-input__preview {
   height: 200px;
-  -o-object-fit: contain;
-     object-fit: contain;
+  object-fit: contain;
 }
 .modal-add__content__form input, .modal-add__content__form select, .modal-add__content__form option {
   font-size: 14px;
@@ -434,4 +432,4 @@ footer nav ul {
 }
 .modal-add__content__form__submit {
   margin: 0 auto 20px auto;
-}/*# sourceMappingURL=style.css.map */
+}

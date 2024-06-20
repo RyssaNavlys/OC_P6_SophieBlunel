@@ -2,12 +2,16 @@
 import { host } from "./config.js";
 
 // import error function
-import { error } from "./utils.js";
+import { showError } from "./utils.js";
 
 // import specific modal sections function
-import { prepareModalGallery, dropModalGallery, updateModalGallery } from "./modalGallery.js";
-import { prepareModalAdd } from "./modalAdd.js";
-import { updateGallery } from "./gallery_functions.js";
+import { prepareModalGallery, dropModalGallery, updateModalGallery } from "./modal_gallery.js";
+import { prepareModalAdd } from "./modal_add.js";
+import { updateGallery } from "./index_gallery.js";
+
+// DOM elements
+const modalWindow = document.querySelector(".modal-window");
+
 
 // Initiate edition
 export function initModalWindow() {
@@ -15,7 +19,6 @@ export function initModalWindow() {
     prepareModalGallery();
     prepareModalAdd();
     // Close modal window when click outside
-    const modalWindow = document.querySelector(".modal-window");
     modalWindow.addEventListener("click",(mouseEvent) => {
         // if not over .modal-window__inner-block then close window
         if(mouseEvent.target.closest(".modal-window__inner-block") === null) {
@@ -26,7 +29,6 @@ export function initModalWindow() {
 
 // function to open modal window (no content)
 export function openModalWindow() {
-    const modalWindow = document.querySelector('.modal-window');
     modalWindow.classList.add('modal-window--display');
 }
 
@@ -34,7 +36,6 @@ export function openModalWindow() {
 function closeModalWindow() {
     hideModalSections();
     // hide modal Window
-    const modalWindow = document.querySelector('.modal-window');
     modalWindow.classList.remove('modal-window--display');
 }
 // close every displayed modal sections
@@ -76,7 +77,7 @@ export function selectModalSection(className) {
 
 // Modal : add work
 export function addWork(workFormData) {
-    const token = window.sessionStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     // API : add work
     fetch(host + '/works', {
         method: 'POST',
@@ -86,7 +87,7 @@ export function addWork(workFormData) {
         body: workFormData,
     }).then((response) => {
         if(!response.ok) {
-            throw "L'ajout n'a pas fonctionné. Vérifiez vos données et réessayez plus tard.";
+            throw new Error("L'ajout n'a pas fonctionné. Vérifiez vos données et réessayez plus tard.");
         } else {
             return response.json();
         }
@@ -99,12 +100,12 @@ export function addWork(workFormData) {
             } else {
                 // reset form
                 document.querySelector(".modal-add__content__form").reset();
-                throw "L'ajout a réussi mais une erreur est survenue durant la mise à jour des gallery : veuillez rafraichir la page."
+                throw new Error("L'ajout a réussi mais une erreur est survenue durant la mise à jour des gallery : veuillez rafraichir la page.");
             }
         })
         .then(worksList => {
             // Store works
-            window.sessionStorage.setItem('worksList',JSON.stringify(worksList));
+            sessionStorage.setItem('worksList',JSON.stringify(worksList));
             // update every gallery
             updateEveryGallery();
             closeModalWindow();
@@ -118,13 +119,13 @@ export function addWork(workFormData) {
         // error container
         const errorContainer = document.querySelector(".modal-add").querySelector(".error");
         //display error
-        error(errorContainer,errorMessage);
+        showError(errorContainer,errorMessage);
     });
 }
 
 // Modal : delete work
 export function deleteWork(work) {
-    const token = window.sessionStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     // API : delete work
     fetch(host + "/works/" + work.id, {
         method: 'DELETE',
@@ -133,19 +134,19 @@ export function deleteWork(work) {
                 },
     }).then((response) => {
         if(!response.ok) {
-            throw "Erreur de suppression de l'élément. Veuillez retenter ultérieurement.";
+            throw new Error("Erreur de suppression de l'élément. Veuillez retenter ultérieurement.");
         } else {
             // Edit sessionStorage
-            const worksList = JSON.parse(window.sessionStorage.getItem("worksList"));
+            const worksList = JSON.parse(sessionStorage.getItem("worksList"));
             const filteredWorksList = worksList.filter((workElement) => workElement.id !== work.id);
-            window.sessionStorage.setItem("worksList",JSON.stringify(filteredWorksList));
+            sessionStorage.setItem("worksList",JSON.stringify(filteredWorksList));
             updateEveryGallery();
         }
     }).catch((errorMessage) => {
         // error container
         let errorContainer = document.querySelector(".modal-gallery").querySelector(".error");
         // display error
-        error(errorContainer,errorMessage);
+        showError(errorContainer,errorMessage);
     });
 }
 

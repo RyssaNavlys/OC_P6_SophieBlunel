@@ -1,9 +1,3 @@
-// import config
-import { host } from './config.js';
-
-// import error function
-import { error } from "./utils.js";
-
 
 // updating gallery
 export function updateGallery() {
@@ -25,7 +19,7 @@ export function updateGallery() {
         setupCategories(categoriesContainer,categoriesList,galleryContainer,worksList);
     } catch(error) {
         // API : invisible error
-        console.log(error);
+        console.error(error);
     }
 }
 
@@ -35,47 +29,60 @@ function setupGallery(container,figuresList) {
     const categoriesIdList = new Set(['Tous']); // get rid of duplicated data
     const categoriesList = [{'id':0,'name':'Tous'}];
     // Erase container content
-    container.innerHTML = "";
+    let figureHTML = document.createDocumentFragment();
     // adding works & categories dynamically
     for(let figure of figuresList) {
-        let figureHTML = document.createElement("figure");
-        figureHTML.setAttribute("id","work-" + figure.id);
-        figureHTML.setAttribute("data-categories",figure.categoryId);
-        figureHTML.innerHTML = `<img src="${figure.imageUrl}" alt="${figure.title}">
-                                <figcaption>${figure.title}</figcaption>`;
-        container.appendChild(figureHTML);
+        // building elements
+        let figureElement = document.createElement('figure');
+        figureElement.setAttribute("id",figure.id);
+        figureElement.setAttribute("data-category",figure.categoryId);
+        let imgElement = document.createElement("img");
+        imgElement.src = figure.imageUrl;
+        imgElement.alt = figure.title;
+        let captionElement = document.createElement("figcaption");
+        captionElement.textContent = figure.title;
+        // adding elements to fragment
+        figureElement.appendChild(imgElement);
+        figureElement.appendChild(captionElement);
+        figureHTML.appendChild(figureElement);
         // create category if not in list
         if(!(categoriesIdList.has(figure.category.id))) {
             categoriesIdList.add(figure.category.id);
             categoriesList.push({'id':figure.category.id,'name':figure.category.name});
         }
     }
+    // adding fragment in document
+    container.innerHTML = "";
+    container.appendChild(figureHTML);
+    // return really used categories
     return categoriesList;
 }
 
 // function to add categories
 function setupCategories(container,categoriesList,galleryContainer,worksList) {
-    // erase container content
-    container.innerHTML="";
     // Create every categories
+    let categoriesFragment = document.createDocumentFragment();
     for(let category of categoriesList) {
         // Create button
         let categoryHtml = document.createElement('button');
         categoryHtml.classList.add('button','categories__button');
-        categoryHtml.setAttribute('data-category_id',category.id);
+        categoryHtml.setAttribute('data-category',category.id);
         if(category.id===0) { categoryHtml.classList.add('button--bg'); }
-        categoryHtml.innerHTML = category.name;
-        container.appendChild(categoryHtml);
+        categoryHtml.textContent = category.name;
+        categoriesFragment.appendChild(categoryHtml);
         // create event listener
-        categoryHtml.addEventListener('click', mousevent => {
-            selectCategory(container,category);
+        categoryHtml.addEventListener('click', (mousevent) => {
+            selectCategoryButton(container,category);
             filterGallery(galleryContainer,worksList,category);
         });
     }
+    // replace container content
+    container.innerHTML="";
+    container.appendChild(categoriesFragment);
 }
 
 // function to change filter
-function selectCategory(container,categoryToSelect) {
+function selectCategoryButton(container,categoryToSelect) {
     // unselect previously selected category (categories)
     container.querySelectorAll('.button--bg').forEach((category) => {
         if(Number(category.dataset.category_id) !== categoryToSelect.id) {
@@ -83,9 +90,9 @@ function selectCategory(container,categoryToSelect) {
         }
     });
     // select right category (or "tous" if category Id doesn't exist)
-    const filterToSelect = container.querySelector(`button[data-category_id='${categoryToSelect.id}']`);
+    const filterToSelect = container.querySelector(`button[data-category='${categoryToSelect.id}']`);
     if(typeof(filterToSelect) === "undefined") {
-        filterToSelect = container.querySelector(`button[data-category_id='0']`);
+        filterToSelect = container.querySelector(`button[data-category='0']`);
     }
     filterToSelect.classList.add('button--bg');
 }

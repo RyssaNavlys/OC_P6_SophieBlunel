@@ -14,6 +14,14 @@ export function initModalWindow() {
     // Prépare modal sections
     prepareModalGallery();
     prepareModalAdd();
+    // Close modal window when click outside
+    const modalWindow = document.querySelector(".modal-window");
+    modalWindow.addEventListener("click",(mouseEvent) => {
+        // if not over .modal-window__inner-block then close window
+        if(mouseEvent.target.closest(".modal-window__inner-block") === null) {
+            closeModalWindow();
+        }
+    });
 }
 
 // function to open modal window (no content)

@@ -113,7 +113,7 @@ export function addWork(workFormData) {
             // error container
             const errorContainer = document.querySelector(".modal-add").querySelector(".error");
             //display error
-            error(errorContainer,errorMessage);
+            showError(errorContainer,errorMessage);
         });
     }).catch((errorMessage) => {
         // error container

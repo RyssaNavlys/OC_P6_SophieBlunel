@@ -14,7 +14,7 @@ export function updateGallery() {
         // Setup filters (display categories + setup events listeners)
         let catList = window.sessionStorage.getItem("categoriesList");
         if(catList !== JSON.stringify(categoriesList)) {
-            window.sessionStorage.setItem('categoriesList',JSON.stringify(categoriesList));
+            sessionStorage.setItem('categoriesList',JSON.stringify(categoriesList));
         }
         setupCategories(categoriesContainer,categoriesList,galleryContainer,worksList);
     } catch(error) {

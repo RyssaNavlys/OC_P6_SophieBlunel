@@ -14,11 +14,11 @@ function logout(mouseEvent) {
     normalModeIndexInterface();
 }
 export function showLogoutMenu() {
-    menuLink.innerHTML="logout";
+    menuLink.textContent="logout";
     menuLink.addEventListener('click', logout);
 }
 export function showLoginMenu() {
-    menuLink.innerHTML="login";
+    menuLink.textContent="login";
     menuLink.removeEventListener('click', logout);
 }
 

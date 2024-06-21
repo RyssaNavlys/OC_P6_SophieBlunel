@@ -37,7 +37,7 @@ fetch(host + "/works")
     // index gallery building (+categories filters)
     updateGallery();
     // logged users
-    if(window.sessionStorage.getItem('token')) {
+    if(sessionStorage.getItem('token')) {
         editionModeIndexInterface();
         initModalWindow();
     // non logged users

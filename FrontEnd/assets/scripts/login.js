@@ -37,8 +37,8 @@ submitButton.addEventListener('click', async (mouseEvent) => {
             }
         })
         .then((user) => {
-            window.sessionStorage.setItem('token',user.token);
-            window.sessionStorage.setItem('userId',user.userId);
+            sessionStorage.setItem('token',user.token);
+            sessionStorage.setItem('userId',user.userId);
             window.location.href = "index.html";
         })
         .catch((error) => {
